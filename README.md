@@ -1,17 +1,23 @@
-# <img src="public/icons/icon_48.png" width="45" align="left"> Auto Refresher
+# <img src="public/icons/icon_48.png" width="45" align="left"> re-extension
 
-My Chrome Extension
+Tired of refreshing your chrome extension on debug mode?
+Here's a simple solution for you!
 
 ## Features
 
-- Feature 1
-- Feature 2
+- Can specify a specific extension id
+- Refresher can be toggled on/off
+- Refresher can be set to refresh on a specific interval
+- Refresher can be set to reload on every refresh
 
 ## Install
 
-[**Chrome** extension]() <!-- TODO: Add chrome extension link inside parenthesis -->
+# SOON
 
 ## Contribution
+
+@ItzikGabay
+
 
 Suggestions and pull requests are welcomed!.
 

@@ -7,26 +7,27 @@
   </head>
   <body>
     <div class="app">
-      <p class="counter-label">Counter</p>
-      <div id="counter" class="counter"></div>
-      <div class="button-container">
-        <button id="decrementBtn" class="button">-</button>
-        <button id="incrementBtn" class="button">+</button>
-      </div>
+      <p class="title">Add extension:</p>
+      <p class="subtitle">You can add specific extension by giving an id</p>
+      <label>
+        Add extension ID:
+        <input type="text" />
+      </label>
+      <button class="add" id="ADD_EXTENSION">Add</button>
 
       <hr class="divider" />
+      <div class="list">No active extension's yet</div>
+      <hr class="divider" />
+      <p>Mode:</p>
+      <div>
+      <input id="1" type="radio" value="1" name="t"/>
+      <label for="1">On refresh</label>
 
-      <p class="title">Chrome Extension is Ready!</p>
-      <p class="subtitle">Start by updating <code>popup.html</code></p>
+      <input id="2" type="radio" value="2" name="t"/>
+      <label for="2">3-seconds interval</label>
+      </div>
     </div>
 
     <script src="popup.js"></script>
-
-    <!--
-      This HTML file opens when you click on icon from the toolbar.
-
-      To begin the development, run `npm run watch`.
-      To create a production bundle, use `npm run build`.
-    -->
   </body>
 </html>

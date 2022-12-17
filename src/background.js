@@ -1,21 +1,23 @@
 'use strict';
 
-// With background scripts you can communicate with popup
-// and contentScript files.
-// For more information on background script,
-// See https://developer.chrome.com/extensions/background_pages
+import user from '../lib/userStorage';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'GREETINGS') {
-    const message = `Hi ${
-      sender.tab ? 'Con' : 'Pop'
-    }, my name is Bac. I am from Background. It's great to hear from you.`;
+  const userStorage = user.store;
+  const { type } = request;
 
-    // Log message coming from the `request` parameter
-    console.log(request.payload.message);
-    // Send a response message
-    sendResponse({
-      message,
+  if (type === 'GET_EXTENSIONS') {
+    chrome.management.getAll(async function (extensions) {
+      const userExtensions = [];
+      for (const ext of extensions) {
+        userExtensions.push(ext);
+      }
+
+      sendResponse({
+        userExtensions,
+      });
     });
+
+    return true;
   }
 });

@@ -7,6 +7,10 @@ const initializeUpdate = async () => {
   try {
     chrome.runtime.sendMessage({ type: 'UPDATE_EXTENSION' }, (response) => {
       console.log('Response from UPDATE_EXTENSION:', response);
+      if (response.success) {
+        console.log('Extension updated!');
+        window.location.reload();
+      }
       return true;
     });
   } catch (e) {

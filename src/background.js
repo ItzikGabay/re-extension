@@ -20,16 +20,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const { LAST_UPDATED } = userStorage;
 
     if (!LAST_UPDATED) {
-      return user.set('LAST_UPDATED', Date.now());
+      user.set('LAST_UPDATED', Date.now());
+      sendResponse({ success: false });
+      return true;
     }
 
     const lastUpdated = new Date(LAST_UPDATED);
     const now = new Date();
     const diff = now.getTime() - lastUpdated.getTime();
-    const minutes = Math.floor(diff / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
 
-    if (minutes < 0) {
-      return;
+    if (seconds < 1.5) {
+      sendResponse({ success: false });
+      return true;
     }
 
     user.set('LAST_UPDATED', Date.now());

@@ -16,7 +16,7 @@ html {
 
 body {
   width: 350px;
-  padding: 15px;
+  padding: 20px;
 }
 
 input[type="text"] {
@@ -50,6 +50,20 @@ input:focus {
   border-color: #333;
 }
 
+/* Remove visiblity of radio */
+input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+label .checkmark {
+  height: 15px;
+  width: 15px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
 .app {
   height: 100%;
   display: flex;
@@ -59,8 +73,25 @@ input:focus {
   text-align: center;
 }
 
+.mode-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  gap: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.mode-btn input:checked ~ .checkmark {
+  background-color: white;
+  border: 4px solid darkgreen;
+}
+
 .add {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .title {
@@ -133,11 +164,34 @@ input:focus {
   width: 100%;
 }
 
-.mode-select {
-  margin-top: 10px;
+
+.add-extension {
+  margin-top: 20px;
 }
 
 .extension-item {
   display: flex;
   justify-content: space-between;
+}
+
+.mode-select-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.powered-by {
+  margin-top: 15px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.logo {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.logo:before {
+  content: "❉";
+  padding-right: 5px;
 }

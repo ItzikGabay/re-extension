@@ -27,7 +27,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 
     setLastUpdated();
-    restartExtension('ohaodbigmoodgmhgfanfkebagaemmjgh', 'none');
+    (async () => {
+      const response = await Promise.allSettled(
+        extensions.map(async (extension) => {
+          await restartExtension(extension);
+        })
+      );
+
+      console.log('Extension update response:', response);
+    })();
+    // restartExtension('ohaodbigmoodgmhgfanfkebagaemmjgh', 'none');
     sendResponse({ success: true });
     return true;
   }

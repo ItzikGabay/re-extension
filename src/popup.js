@@ -13,7 +13,7 @@ const updateExtensionList = async () => {
 
   const ul = document.createElement('ul');
   extensions.forEach((extension) => {
-    ul.appendChild(createExtensionItemElement({ title: extension }));
+    ul.appendChild(createExtensionItemElement(extension));
   });
 
   const listElement = document.querySelector('.list');

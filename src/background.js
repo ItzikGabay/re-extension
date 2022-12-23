@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const { type } = request;
 
   if (type === events.UPDATE_EXTENSION) {
-    const { LAST_UPDATED, extensions } = userStorage;
+    const { LAST_UPDATED } = userStorage;
     const setLastUpdated = () => user.set('LAST_UPDATED', Date.now());
 
     if (!LAST_UPDATED) {
@@ -28,15 +28,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     setLastUpdated();
     (async () => {
+      const extensions = await user.getExtensions();
       const response = await Promise.allSettled(
-        extensions.map(async (extension) => {
-          await restartExtension(extension);
-        })
+        extensions
+          .filter((ext) => !!ext.activated)
+          .map(async (extension) => {
+            await restartExtension(extension.id);
+          })
       );
 
       console.log('Extension update response:', response);
     })();
-    // restartExtension('ohaodbigmoodgmhgfanfkebagaemmjgh', 'none');
     sendResponse({ success: true });
     return true;
   }

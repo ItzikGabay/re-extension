@@ -68,6 +68,10 @@ body {
   background: rgba(0,0,0,0.15);
 }
 
+.list li.--active {
+  background: #f1f1f1;
+}
+
 .list li .extension-title {
   font-weight: 500;
   font-size: 13px;
@@ -76,6 +80,10 @@ body {
 .list li .extension-description {
   font-weight: 300;
   font-size: 12px;
+  color: red;
+}
+
+.list li.--active .extension-description {
   color: gray;
 }
 

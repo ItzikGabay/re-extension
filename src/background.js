@@ -32,14 +32,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const response = await Promise.allSettled(
         extensions
           .filter((ext) => !!ext.activated)
-          .map(async (extension) => {
-            await restartExtension(extension.id);
-          })
+          .map(async (extension) => await restartExtension(extension.id))
       );
 
-      console.log('Extension update response:', response);
+      const result = response.some((res) => res.status === 'fulfilled');
+      console.log('Extension update status:', { response, result });
+      sendResponse({ success: result });
     })();
-    sendResponse({ success: true });
     return true;
   }
 

@@ -39,6 +39,7 @@ button {
   color: white;
   background-color: darkgreen;
   cursor: pointer;
+  font-weight: 700;
 }
 
 button:hover {
@@ -79,7 +80,7 @@ label .checkmark {
   align-items: center;
   justify-content: center;
   padding: 10px 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /*border: 1px solid rgba(0, 0, 0, 0.1);*/
   gap: 5px;
   cursor: pointer;
   font-weight: 500;
@@ -90,12 +91,17 @@ label .checkmark {
   border: 4px solid darkgreen;
 }
 
+.mode-btn input:disabled ~ .checkmark {
+  cursor: not-allowed;
+  background: #cccccc;
+}
+
 .add {
   margin-top: 5px;
 }
 
 .title {
-  font-weight: 500;
+  font-weight: 700;
   margin-bottom: 10px;
   text-align: start;
   width: 100%;
@@ -148,6 +154,9 @@ label .checkmark {
 .list li .extension-title {
   font-weight: 500;
   font-size: 13px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 160px;
 }
 
 .list li .extension-description {
@@ -165,8 +174,8 @@ label .checkmark {
 }
 
 
-.add-extension {
-  margin-top: 20px;
+.mode-select {
+  margin-top: 10px;
 }
 
 .extension-item {

@@ -12,7 +12,7 @@ const updateExtensionList = async () => {
     .catch(() => console.log(ERRORS.NO_EXTENSION_FOUND));
 
   const ul = document.createElement('ul');
-  extensions.forEach((extension) => {
+  extensions?.forEach((extension) => {
     ul.appendChild(createExtensionItemElement(extension));
   });
 

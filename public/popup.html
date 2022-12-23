@@ -7,17 +7,15 @@
   </head>
   <body>
     <div class="app">
-      <div class="list">No active extension's yet</div>
-      <p class="title">Add extension:</p>
-      <p class="subtitle">You can add specific extension by giving an id</p>
-      <label>
-        Add extension ID:
-        <input type="text" id="ADD_EXTENSION_INPUT"/>
-      </label>
-      <button class="add" id="ADD_EXTENSION_BUTTON">Add</button>
-
-      <hr class="divider" />
-      <hr class="divider" />
+      <div class="activated-extensions">
+        <h1 class="title">Activated extensions:</h1>
+        <div class="list">No active extension's yet</div>
+      </div>
+      <div class="add-extension">
+        <h1 class="title">Add extension:</h1>
+        <input type="text" id="ADD_EXTENSION_INPUT" autofocus/>
+        <button class="add" id="ADD_EXTENSION_BUTTON">Add</button>
+      </div>
       <p>Mode:</p>
       <div>
       <input id="1" type="radio" value="1" name="t" checked/>

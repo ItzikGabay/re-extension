@@ -1,29 +1,21 @@
 'use strict';
 
+import UserStorage from '../lib/userStorage';
+
 const initializeUpdate = async () => {
   console.log('[auto-refresher] initialize');
+  const userMode = await UserStorage.getAsync('mode');
 
   try {
-    // UPDATE_EXTENSION
-    chrome.runtime.sendMessage({ type: 'REFRESH_ON_INTERVAL' }, (response) => {
+    chrome.runtime.sendMessage({ type: userMode }, (response) => {
       if (response.success) {
-        console.log('Extension updated successfully');
         window.location.reload();
       }
-
       return true;
     });
   } catch (e) {
     console.log(e);
   }
-
-  // window.setInterval(checkBrowserFocus, 1000);
-
-  // function checkBrowserFocus() {
-  //   chrome.windows.getCurrent(function (browser) {
-  //     console.log(browser.focused);
-  //   });
-  // }
 };
 
 initializeUpdate();

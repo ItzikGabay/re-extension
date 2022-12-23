@@ -38,6 +38,23 @@ const updateExtensionList = async () => {
       }
     });
 
+    const pageRefreshBtn = document.getElementById('page_refresh');
+    const intervalBtn = document.getElementById('interval');
+    const mode = await user.getAsync('mode');
+    console.log('mode', mode);
+
+    mode === 'REFRESH_ON_INTERVAL'
+      ? (intervalBtn.checked = true)
+      : (pageRefreshBtn.checked = true);
+
+    pageRefreshBtn.addEventListener('change', function (e) {
+      user.set('mode', 'UPDATE_EXTENSION');
+    });
+
+    intervalBtn.addEventListener('change', function () {
+      user.set('mode', 'REFRESH_ON_INTERVAL');
+    });
+
     await updateExtensionList();
   });
 })();

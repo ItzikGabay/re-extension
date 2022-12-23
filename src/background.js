@@ -43,32 +43,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
-  if (type === events.GET_EXTENSIONS) {
-    chrome.management.getAll(async function (extensions) {
-      const userExtensions = [];
-      const currentExt = extensions.find(
-        (ext) => ext.id === 'ohaodbigmoodgmhgfanfkebagaemmjgh'
-      );
-
-      await restartExtension(
-        'ohaodbigmoodgmhgfanfkebagaemmjgh',
-        currentExt.type
-      );
-
-      for (const ext of extensions) {
-        userExtensions.push(ext);
-      }
-
-      sendResponse({
-        userExtensions,
-        currentExt,
-        test: true,
-      });
-    });
-
-    return true;
-  }
-
   if (type === 'REFRESH_ON_INTERVAL') {
     const isValid = validateLastUpdated(LAST_UPDATED);
 
@@ -83,14 +57,41 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
         if (isAllTabsUnfocused) {
           await user.restartExtensions();
+          console.log('All tabs unfocused, restarting extensions');
         }
       });
     }, 3000);
 
-    sendResponse({ success: true });
+    sendResponse({ success: false });
     return true;
   }
 });
+
+// if (type === events.GET_EXTENSIONS) {
+//   chrome.management.getAll(async function (extensions) {
+//     const userExtensions = [];
+//     const currentExt = extensions.find(
+//       (ext) => ext.id === 'ohaodbigmoodgmhgfanfkebagaemmjgh'
+//     );
+//
+//     await restartExtension(
+//       'ohaodbigmoodgmhgfanfkebagaemmjgh',
+//       currentExt.type
+//     );
+//
+//     for (const ext of extensions) {
+//       userExtensions.push(ext);
+//     }
+//
+//     sendResponse({
+//       userExtensions,
+//       currentExt,
+//       test: true,
+//     });
+//   });
+//
+//   return true;
+// }
 
 // chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 //   console.log('Tab is loading:', { tab, tabId, changeInfo });

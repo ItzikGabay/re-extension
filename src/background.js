@@ -5,38 +5,39 @@ import { events } from '../lib/utils/events';
 import { millisecondsToSecondsFromNow } from '../lib/time';
 import { restartExtension } from '../lib/chrome';
 
+const validateLastUpdated = (lastUpdated) => {
+  const setLastUpdated = () => user.set('LAST_UPDATED', Date.now());
+
+  if (!lastUpdated) {
+    setLastUpdated();
+    return false;
+  }
+
+  const lastUpdatedInSeconds = millisecondsToSecondsFromNow(lastUpdated);
+
+  if (lastUpdatedInSeconds < 1.5) {
+    return false;
+  }
+
+  setLastUpdated();
+  return true;
+};
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const userStorage = user.store;
+  const { LAST_UPDATED } = userStorage;
   const { type } = request;
 
   if (type === events.UPDATE_EXTENSION) {
-    const { LAST_UPDATED } = userStorage;
-    const setLastUpdated = () => user.set('LAST_UPDATED', Date.now());
+    const isValid = validateLastUpdated(LAST_UPDATED);
 
-    if (!LAST_UPDATED) {
-      setLastUpdated();
+    if (!isValid) {
       sendResponse({ success: false });
       return true;
     }
 
-    const lastUpdatedInSeconds = millisecondsToSecondsFromNow(LAST_UPDATED);
-
-    if (lastUpdatedInSeconds < 1.5) {
-      sendResponse({ success: false });
-      return true;
-    }
-
-    setLastUpdated();
     (async () => {
-      const extensions = await user.getExtensions();
-      const response = await Promise.allSettled(
-        extensions
-          .filter((ext) => !!ext.activated)
-          .map(async (extension) => await restartExtension(extension.id))
-      );
-
-      const result = response.some((res) => res.status === 'fulfilled');
-      console.log('Extension update status:', { response, result });
+      const result = await user.restartExtensions();
       sendResponse({ success: result });
     })();
     return true;
@@ -65,6 +66,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
     });
 
+    return true;
+  }
+
+  if (type === 'REFRESH_ON_INTERVAL') {
+    const isValid = validateLastUpdated(LAST_UPDATED);
+
+    if (!isValid) {
+      sendResponse({ success: false });
+      return true;
+    }
+
+    setInterval(function () {
+      chrome.windows.getLastFocused(async function (window) {
+        const isAllTabsUnfocused = !window?.focused;
+
+        if (isAllTabsUnfocused) {
+          await user.restartExtensions();
+        }
+      });
+    }, 3000);
+
+    sendResponse({ success: true });
     return true;
   }
 });

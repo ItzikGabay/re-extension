@@ -4,7 +4,8 @@ const initializeUpdate = async () => {
   console.log('[auto-refresher] initialize');
 
   try {
-    chrome.runtime.sendMessage({ type: 'UPDATE_EXTENSION' }, (response) => {
+    // UPDATE_EXTENSION
+    chrome.runtime.sendMessage({ type: 'REFRESH_ON_INTERVAL' }, (response) => {
       if (response.success) {
         console.log('Extension updated successfully');
         window.location.reload();
@@ -15,6 +16,14 @@ const initializeUpdate = async () => {
   } catch (e) {
     console.log(e);
   }
+
+  // window.setInterval(checkBrowserFocus, 1000);
+
+  // function checkBrowserFocus() {
+  //   chrome.windows.getCurrent(function (browser) {
+  //     console.log(browser.focused);
+  //   });
+  // }
 };
 
 initializeUpdate();

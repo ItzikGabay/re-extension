@@ -51,13 +51,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return true;
     }
 
+    let toUpdate = false;
+
     setInterval(function () {
       chrome.windows.getLastFocused(async function (window) {
         const isAllTabsUnfocused = !window?.focused;
 
         if (isAllTabsUnfocused) {
-          await user.restartExtensions();
+          toUpdate = true;
+        }
+
+        if (toUpdate && !isAllTabsUnfocused) {
+          const result = await user.restartExtensions();
           console.log('All tabs unfocused, restarting extensions');
+          sendResponse({ success: result });
+          toUpdate = false;
         }
       });
     }, 3000);

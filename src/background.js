@@ -2,40 +2,31 @@
 
 import user from '../lib/userStorage';
 import { events } from '../lib/utils/events';
-
-async function restartExtension(extensionId, extensionType) {
-  await chrome.management.setEnabled(extensionId, false);
-  await chrome.management.setEnabled(extensionId, true);
-
-  if (extensionType === 'packaged_app') {
-    await chrome.management.launchApp(extensionId);
-  }
-}
+import { millisecondsToSecondsFromNow } from '../lib/time';
+import { restartExtension } from '../lib/chrome';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const userStorage = user.store;
   const { type } = request;
 
   if (type === events.UPDATE_EXTENSION) {
-    const { LAST_UPDATED } = userStorage;
+    const { LAST_UPDATED, extensions } = userStorage;
+    const setLastUpdated = () => user.set('LAST_UPDATED', Date.now());
 
     if (!LAST_UPDATED) {
-      user.set('LAST_UPDATED', Date.now());
+      setLastUpdated();
       sendResponse({ success: false });
       return true;
     }
 
-    const lastUpdated = new Date(LAST_UPDATED);
-    const now = new Date();
-    const diff = now.getTime() - lastUpdated.getTime();
-    const seconds = Math.floor((diff % 60000) / 1000);
+    const lastUpdatedInSeconds = millisecondsToSecondsFromNow(LAST_UPDATED);
 
-    if (seconds < 1.5) {
+    if (lastUpdatedInSeconds < 1.5) {
       sendResponse({ success: false });
       return true;
     }
 
-    user.set('LAST_UPDATED', Date.now());
+    setLastUpdated();
     restartExtension('ohaodbigmoodgmhgfanfkebagaemmjgh', 'none');
     sendResponse({ success: true });
     return true;

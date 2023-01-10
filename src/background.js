@@ -8,21 +8,15 @@ import { restartExtension } from '../lib/chrome';
 const validateLastUpdated = (lastUpdated) => {
   const setLastUpdated = () => user.set('LAST_UPDATED', Date.now());
 
-  if (!lastUpdated) {
-    setLastUpdated();
-    return false;
-  }
-
-  const lastUpdatedInSeconds = millisecondsToSecondsFromNow(lastUpdated);
-
-  if (lastUpdatedInSeconds < 1.5) {
-    return false;
-  }
-
-  setLastUpdated();
-  return true;
-};
-
+/*
+ * This file is responsible for listening to the events that are emitted by the
+ * content script and then updating the user storage with the new data.
+ *
+ * Background file rules:
+ * 1. Only one instance of the background file is created.
+ * 2. You must send a response (can be empty object {}) to the sender.
+ * 3. You must return true after you send a response.
+ */
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const userStorage = user.store;
   const { LAST_UPDATED } = userStorage;

@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
-  if (type === 'REFRESH_ON_INTERVAL') {
+  if (type === events.REFRESH_ON_INTERVAL) {
     // Validating last update status
     const isValid = validateUpdateStatus(LAST_UPDATED, () =>
       user.set('LAST_UPDATED', Date.now())

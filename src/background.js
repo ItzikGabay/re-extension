@@ -2,11 +2,7 @@
 
 import user from '../lib/userStorage';
 import { events } from '../lib/utils/events';
-import { millisecondsToSecondsFromNow } from '../lib/time';
-import { restartExtension } from '../lib/chrome';
-
-const validateLastUpdated = (lastUpdated) => {
-  const setLastUpdated = () => user.set('LAST_UPDATED', Date.now());
+import { validateUpdateStatus } from '../lib/time';
 
 /*
  * This file is responsible for listening to the events that are emitted by the
@@ -23,7 +19,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const { type } = request;
 
   if (type === events.UPDATE_EXTENSION) {
-    const isValid = validateLastUpdated(LAST_UPDATED);
+    const isValid = validateUpdateStatus(LAST_UPDATED, () =>
+      user.set('LAST_UPDATED', Date.now())
+    );
 
     if (!isValid) {
       sendResponse({ success: false });
@@ -38,7 +36,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (type === 'REFRESH_ON_INTERVAL') {
-    const isValid = validateLastUpdated(LAST_UPDATED);
+    const isValid = validateUpdateStatus(LAST_UPDATED, () =>
+      user.set('LAST_UPDATED', Date.now())
+    );
 
     if (!isValid) {
       sendResponse({ success: false });

@@ -3,7 +3,7 @@
 import UserStorage from '../lib/userStorage';
 
 const initializeUpdate = async () => {
-  console.log('[auto-refresher] initialize');
+  console.log('[auto-refresher] init');
   const userMode = await UserStorage.getAsync('mode');
 
   try {

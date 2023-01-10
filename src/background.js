@@ -36,6 +36,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (type === 'REFRESH_ON_INTERVAL') {
+    // Validating last update status
     const isValid = validateUpdateStatus(LAST_UPDATED, () =>
       user.set('LAST_UPDATED', Date.now())
     );
@@ -45,21 +46,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return true;
     }
 
-    let toUpdate = false;
+    let hasToUpdate = false;
 
     setInterval(function () {
       chrome.windows.getLastFocused(async function (window) {
-        const isAllTabsUnfocused = !window?.focused;
+        const isTabsUnfocused = !window?.focused;
 
-        if (isAllTabsUnfocused) {
-          toUpdate = true;
+        if (isTabsUnfocused) {
+          hasToUpdate = true;
         }
 
-        if (toUpdate && !isAllTabsUnfocused) {
-          const result = await user.restartExtensions();
-          console.log('All tabs unfocused, restarting extensions');
-          sendResponse({ success: result });
-          toUpdate = false;
+        if (hasToUpdate && !isTabsUnfocused) {
+          hasToUpdate = false;
+
+          const hasRestarted = await user.restartExtensions();
+          sendResponse({ success: hasRestarted });
         }
       });
     }, 3000);

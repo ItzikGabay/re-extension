@@ -1,4 +1,5 @@
 # <img src="public/icons/48x48.png" width="45" align="left"> @re-extension
+# <img src="preview.png" width="45" align="left">
 
 Tired of refreshing your chrome extension on debug mode?
 Here's a powerful tool for your Chrome extensions. 

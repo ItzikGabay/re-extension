@@ -8,8 +8,9 @@ This extension eliminates the need to constantly reload your extension after mak
 Debugging becomes more efficient and faster with the @re-extension Debugging Extension, making it the perfect addition to your development workflow :)
 
 ## Preview
-
-# <img src="preview.png" align="left">
+<p align="center">
+  <img alt="preview" src="https://github.com/ItzikGabay/re-extension/raw/main/preview.png" height="280"/>
+</p>
 
 ## Features
 * Toggle the extension on and off with a single click

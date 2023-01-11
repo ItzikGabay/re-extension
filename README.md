@@ -1,5 +1,4 @@
 # <img src="public/icons/48x48.png" width="45" align="left"> @re-extension
-# <img src="preview.png" width="45" align="left">
 
 Tired of refreshing your chrome extension on debug mode?
 Here's a powerful tool for your Chrome extensions. 
@@ -7,6 +6,9 @@ Here's a powerful tool for your Chrome extensions.
 This extension eliminates the need to constantly reload your extension after making changes and allowing you to debug other extensions without interruption. 
 
 Debugging becomes more efficient and faster with the @re-extension Debugging Extension, making it the perfect addition to your development workflow :)
+
+## Preview
+# <img src="preview.png" align="left">
 
 ## Features
 * Toggle the extension on and off with a single click
